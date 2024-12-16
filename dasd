@@ -1,0 +1,48 @@
+
+local dynamicFurniture = workspace:WaitForChild("DynamicFurniture")
+
+
+local modelsList = {"ScrapPile", "BottlePack", "Snow", "Sludge", "MushroomBase", "PoisonMushroom", "Burger", "Cheese"}
+
+
+
+local function createPart(model)
+    
+    if table.find(modelsList, model.Name) then
+        
+        local existingPart = model:FindFirstChild("TeleportPart")
+        if not existingPart then
+            
+
+            
+            local newPart = Instance.new("Part")
+            newPart.Size = Vector3.new(1, 1, 1)
+            newPart.Anchored = true -- Parte ancorada
+            newPart.Transparency = 1
+            newPart.CanCollide = false
+            newPart.Position = model:GetModelCFrame().Position + Vector3.new(0, 5, 0) -- Posiciona a parte acima do centro da Model
+            newPart.Name = "TeleportPart"
+            newPart.Parent = model
+
+            
+        else
+            
+        end
+    end
+end
+
+
+dynamicFurniture.ChildAdded:Connect(function(model)
+    if model:IsA("Model") then
+        createPart(model)
+    end
+end)
+
+
+for _, model in ipairs(dynamicFurniture:GetChildren()) do
+    if model:IsA("Model") then
+        createPart(model)
+    end
+end
+
+
